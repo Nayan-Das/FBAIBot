@@ -1,6 +1,5 @@
-# Watson Project
+# JARVIS Project
 
-## Project for Internet technologies class.Testing
 
 ### To run:
 1. Clone the repo.
