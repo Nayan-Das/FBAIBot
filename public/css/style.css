@@ -1,0 +1,220 @@
+body
+{
+    padding: 0;
+    margin: 0;
+}
+
+.hidden
+{
+    display: none !important;
+}
+
+#mainWrapper
+{
+    display: grid;
+    grid-template-rows: 1fr 4rem;
+    grid-template-columns: 1fr;
+    grid-template-areas:
+    "messages"
+    "controls";
+
+    height: 100vh;
+    transition: all 0.1s ease-in;
+}
+
+#messages
+{
+    grid-area: messages;
+    background-color: white;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+#controls
+{
+    display: flex;
+    justify-content: space-between;
+    grid-area: controls;
+    background-color: white;
+}
+
+#controlsKeyboard
+{
+    display: grid;
+    grid-area: controls;
+    grid-template-columns: 4rem 1fr 4rem;
+    background-color: white;
+}
+
+#controlsKeyboardKeyboardInput
+{
+    min-width: 75%;
+    border: 0;
+    outline: 0;
+    font-family: sans-serif;
+    font-size: 1rem;
+}
+
+.controlsButton
+{
+    background-color: white;
+    width: 4rem;
+    height: 4rem;
+    font-size: 1.5rem;
+    border: 0;
+}
+
+.message
+{
+    display: block;
+}
+
+.messageSpeechBubbleWrapper
+{
+    display: flex;
+    width: 100%;
+}
+
+.messageSpeechBubbleWrapper.right
+{
+    justify-content: flex-end;
+}
+
+.messageSpeechBubble
+{
+    display: flex;
+    margin: 1rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    background-color: #eeeeee;
+    border-radius: 2rem;
+    min-height: 2rem;
+    align-items: center;
+    font-family: sans-serif;
+    font-weight: 300;
+}
+
+.messageSpeechBubble.continuous
+{
+    max-width: 100%;
+    display: grid;
+    grid-template-columns: repeat(4, fit-content(12rem));
+}
+
+.messageSpeechBubbleResponse
+{
+    border: 1px solid grey;
+    background-color: white;
+}
+
+.messageCard
+{
+    margin: 20px;
+    border-radius: 4px;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
+
+.messageCard.messageCardShort
+{
+    min-height: 8rem;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 1fr 8rem;
+}
+
+.messageCard.messageCardShort>.messageCardDescription
+{
+}
+
+.messageCard.messageCardShort>.messageCardDescription>h3
+{
+    font-family: sans-serif;
+    font-weight: 400;
+    padding-left: 1rem;
+}
+
+.messageCard.messageCardShort>.messageCardDescription>p
+{
+    font-family: sans-serif;
+    font-weight: 300;
+    color: grey;
+    font-size: 0.9rem;
+    padding-left: 1rem;
+}
+
+.messageCard.messageCardShort>.messageCardImage
+{
+    display: flex;
+}
+
+.messageCard.messageCardShort>.messageCardImage>img
+{
+    width: 6rem;
+    height: 6rem;
+    display: inline;
+    margin: 1rem;
+    align-self: center;
+    justify-self: center;
+    object-fit: cover;
+}
+
+#cameraWrapper
+{
+    display: grid;
+    height: 100vh;
+
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 4rem;
+    grid-template-areas:
+    "cameraOverlay"
+    "cameraControls";
+    position: relative;
+}
+
+#cameraDisplay
+{
+    position: absolute;
+    z-index: -1;
+
+    width: 100%;
+    background-image: url('../images/orionthemes-placeholder-image.png');
+    height: 100vh;
+    background-position: center center;
+}
+
+#cameraOverlay
+{
+    grid-area: cameraOverlay;
+}
+#cameraControls
+{
+    grid-area: cameraControls;
+    display: grid;
+    grid-template-rows: 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
+    background-color: white;
+    justify-content: flex-start;
+}
+
+#cameraBackButton
+{
+    justify-self: flex-start;
+}
+
+#takePhotoButton
+{
+    justify-self: center;
+    background-image: url(../images/shutter.png);
+    border-radius: 50%;
+    background-color: rgba(0,0,0,0);
+    background-size: cover;
+    width: 4rem;
+    height: 4rem;
+}
+
+#hiddenCanvas
+{
+    position: absolute;
+    top: 0;
+    left: 0;
+}

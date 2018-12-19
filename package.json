@@ -1,0 +1,23 @@
+{
+  "name": "client",
+  "version": "0.0.1",
+  "description": "Client side of AI assistant",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ./out"
+  },
+  "keywords": [
+    "AI",
+    "Assistant"
+  ],
+  "author": "hari",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/ip": "0.0.31",
+    "@types/node": "^10.5.8"
+  },
+  "dependencies": {
+    "ip": "^1.1.5"
+  }
+}
