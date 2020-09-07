@@ -2,6 +2,9 @@ const DEBUG = true;
 const STATE_IDLE = 0;
 const STATE_LISTENING = 1;
 const IS_ANDROID = window.navigator.userAgent.match(/Android/g) !== null;
+const GOOGLE_API_KEY = 'Replace key from google doc';
+const CX_KEY = 'Replace key from google doc';
+const BEARER_KEY= 'Replace key from google doc';
 //import GSR from 'google-search-results-nodejs';
 
 // Utility functions --------------------------------------------------------------------------------------------------
@@ -44,7 +47,7 @@ function initialize(d)
 
 async function searchKnowledgeGraph(query)
 {
-    const GOOGLE_API_KEY = 'AIzaSyB4hJzJLiqOpZSXP5Ee3aKb26zrfl1WID0';
+   
 
     cout('searching knowledge graph for ', query);
     const requrl = `https://kgsearch.googleapis.com/v1/entities:search?query=${query}&key=${GOOGLE_API_KEY}`;
@@ -54,8 +57,8 @@ async function searchKnowledgeGraph(query)
 }
 async function searchGoogle(query)
 {
-    const GOOGLE_API_KEY = 'AIzaSyDMQK2ZsTlBQ3oCfnRjk1YRf9IaO1IWPhA';
-    const CX_KEY = '0cebd7ed6884294f3';
+    
+    
 
     cout('searching google for ', query);
     const requrl = `https://www.googleapis.com/customsearch/v1?key=${GOOGLE_API_KEY}&cx=${CX_KEY}&q=${query}`;
@@ -601,7 +604,7 @@ async function newWitQuery(query)
 {
     const url = `https://api.wit.ai/message?v=20200905&q=${encodeURIComponent(query)}`;
     const headers = new Headers();
-    headers.append('Authorization', 'Bearer DJ5SGH4WSFBVV2PGJGSDXOKVZXEYAXP4');
+    headers.append('Authorization', `Bearer ${BEARER_KEY}`);
     const response = await fetch(url, {headers});
     return response.json();
 }
