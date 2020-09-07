@@ -2,6 +2,7 @@ const DEBUG = true;
 const STATE_IDLE = 0;
 const STATE_LISTENING = 1;
 const IS_ANDROID = window.navigator.userAgent.match(/Android/g) !== null;
+//import GSR from 'google-search-results-nodejs';
 
 // Utility functions --------------------------------------------------------------------------------------------------
 
@@ -43,10 +44,22 @@ function initialize(d)
 
 async function searchKnowledgeGraph(query)
 {
-    const GOOGLE_API_KEY = 'AIzaSyCXKFxf2W8Sxe4yDjTG0iH8lAbTpe4Q_ao';
+    const GOOGLE_API_KEY = 'AIzaSyB4hJzJLiqOpZSXP5Ee3aKb26zrfl1WID0';
 
     cout('searching knowledge graph for ', query);
     const requrl = `https://kgsearch.googleapis.com/v1/entities:search?query=${query}&key=${GOOGLE_API_KEY}`;
+    cout('debug: requrl:', requrl);
+    const response = await fetch(requrl);
+    return response.json();
+}
+async function searchGoogle(query)
+{
+    const GOOGLE_API_KEY = 'AIzaSyDMQK2ZsTlBQ3oCfnRjk1YRf9IaO1IWPhA';
+    const CX_KEY = '0cebd7ed6884294f3';
+
+    cout('searching google for ', query);
+    const requrl = `https://www.googleapis.com/customsearch/v1?key=${GOOGLE_API_KEY}&cx=${CX_KEY}&q=${query}`;
+    //const requrl = `https://kgsearch.googleapis.com/v1/entities:search?query=${query}&key=${GOOGLE_API_KEY}`;
     cout('debug: requrl:', requrl);
     const response = await fetch(requrl);
     return response.json();
@@ -85,7 +98,7 @@ function takePhoto(d)
     const context = canvas.getContext('2d');
 
     canvas.width = width;
-    canvas.height = height;();
+    canvas.height = height;
     context.drawImage(video, 0, 0, width, height);
 
     return canvas.toDataURL('image/png');
@@ -372,15 +385,73 @@ function onControlsKeyboardSendClick(d, event)
 
 function onWitResponse(d, data)
 {
+    //cout(data);
     cout(data);
 
     let responseText = '';
-    
-    if(data.entities.greetings)
+
+    //cout("Hello to you ");
+    if(data.intents[0].name== 'greeting')
     {
         responseText = 'Hello to you too!!';
+       // cout("Hello to you");
     }
-   
+    else if(data.intents[0].name== 'time_get')
+    {
+        const date = new Date();
+                const hours = date.getHours();
+                const minutes = String(date.getMinutes()).padStart(2, 0);
+                const isAM = hours < 12;
+
+                responseText += `The time is ${hours < 12 ? hours : hours - 12}:${minutes.padStart()} ${isAM ? 'AM' : 'PM'}.`;
+    }
+    else if(data.intents[0].name== 'date_get')
+    {
+        const date = new Date();
+                // const  = date;
+                // const minutes = String(date.getMinutes()).padStart(2, 0);
+                // const isAM = hours < 12;
+
+                responseText += `The date is ${date}`;
+    }
+    else if(data.intents[0].name== 'on_ac')
+    {
+        
+                // We can all API to switched on AC
+                responseText += `Ac Switched On`;
+    }
+    else if(data.intents[0].name== 'search')
+    {
+        console.log("inside search " + data.text);
+        const searchQuery = data.text;
+        //const searchQuery = data.entities.search_query[0].value;
+        responseText += 'This\'s what I found';
+        searchGoogle(searchQuery)
+        .then(knowledgeGraphResponse =>
+        {
+            cout('debug knowledgeGraphResponse');
+            cout(knowledgeGraphResponse);
+            const searchResult = knowledgeGraphResponse.items[0];
+            let imgUrl = 'images/idea.png';
+            let imgDescription = searchQuery;
+            let imgDetailedDescription = 'Search result for ' + searchQuery;
+            if(searchResult.image)imgUrl = searchResult.link;
+            if(searchResult.snippet)imgDescription = searchResult.htmlSnippet;
+            if(searchResult.link)imgDetailedDescription = searchResult.link;
+            const imgResult = {sender: 'ai',
+                               type: 'image',
+                               image: {src: imgUrl,
+                                       title: imgDescription,
+                                       description: imgDetailedDescription
+                                      }
+                              };
+            cout(imgResult);
+            addPopup(d, imgResult);
+        });
+
+
+    }
+
     else if(data.entities.intent)
     {
         const intents = data.entities.intent;
@@ -528,9 +599,9 @@ function addPopup(d, response)
 
 async function newWitQuery(query)
 {
-    const url = `https://api.wit.ai/message?v=20181005&q=${encodeURIComponent(query)}`;
+    const url = `https://api.wit.ai/message?v=20200905&q=${encodeURIComponent(query)}`;
     const headers = new Headers();
-    headers.append('Authorization', 'Bearer CZUDKTZMM7KREY6GV33QWHTXDM7CZOMY');
+    headers.append('Authorization', 'Bearer DJ5SGH4WSFBVV2PGJGSDXOKVZXEYAXP4');
     const response = await fetch(url, {headers});
     return response.json();
 }

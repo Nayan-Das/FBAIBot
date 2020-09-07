@@ -4,6 +4,7 @@ import url from 'url';
 import { IncomingMessage, ServerResponse } from 'http';
 import { AddressInfo } from 'net';
 import ip from 'ip';
+import GSR from 'google-search-results-nodejs';
 
 const DEBUG = true;
 const PORT = 8080;
@@ -20,7 +21,16 @@ server.on('listening', () => cout('listening on port ' + PORT));
 server.listen(PORT);
 
 // Request handler
-
+function calltest(query)
+{
+    const client = new GSR.GoogleSearchResults("AIzaSyB4hJzJLiqOpZSXP5Ee3aKb26zrfl1WID0")
+client.json({
+ q: query, 
+ location: "Austin, TX"
+}, (result) => {
+  console.log(result)
+})
+}
 function onRequest(req: IncomingMessage, res: ServerResponse)
 {
     const currUrl = req.url;
